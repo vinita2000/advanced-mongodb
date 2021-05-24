@@ -5,7 +5,7 @@ exports.updateOne = async (req, res) => {
 
     const { filter, query }  = req.body;
 
-    await mongoose.connection.db.collection('flightData').updateOne(filter, {$set: query});
+    await mongoose.connection.db.collection('passenger').updateOne(filter, {$set: query});
 
     res.status(201).json({
       message: 'Success'
@@ -32,7 +32,7 @@ exports.updateMany = async (req, res) => {
       filter = req.body['filter'];
     };  
 
-    await mongoose.connection.db.collection('flightData').updateMany(filter, {$set:query});
+    await mongoose.connection.db.collection('passenger').updateMany(filter, {$set:query});
 
     res.status(201).json({
       message: 'Success'

@@ -8,7 +8,7 @@ require('dotenv').config();
 require('./config/connection');
 
 var flightRouter = require('./routes/flight');
-// var usersRouter = require('./routes/users');
+var passengerRouter = require('./routes/passenger');
 
 var app = express();
 
@@ -19,6 +19,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/flight', flightRouter);
-// app.use('/users', usersRouter);
+app.use('/passenger', passengerRouter);
 
 module.exports = app;
