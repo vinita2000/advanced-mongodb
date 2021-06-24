@@ -10,6 +10,7 @@ require('./config/connection');
 var flightRouter = require('./routes/flight');
 var passengerRouter = require('./routes/passenger');
 var showsRouter = require('./routes/shows');
+var personsRouter = require('./routes/persons');
 
 var app = express();
 
@@ -22,5 +23,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/flight', flightRouter);
 app.use('/passenger', passengerRouter);
 app.use('/shows', showsRouter);
+app.use('/persons', personsRouter);
 
 module.exports = app;
