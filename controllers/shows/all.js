@@ -629,3 +629,49 @@ exports.findAllGenres = async (req, res) => {
     });
   }
 };
+
+exports.textIndex = async (req, res) => {
+  try{
+    let data;
+    let count = 0;
+    let toSearch = '';
+
+    if (req.query['search']) toSearch = req.query['search'];
+
+    await Shows.createIndexes({summary: 'text'});
+    
+    const result = await Shows.aggregate([
+      {
+        $match: { $text: { $search: "cake tea" } }
+      },
+      { 
+        $sort: { score: { $meta: "textScore" } } 
+      },
+      {
+        $project: { summary: 1, name: 1 }
+      },
+      {
+        $facet: {
+          'total_matched': [{ $group: { _id: null, count: { $sum: 1 } } }],
+          'data': [{ $skip: 0 }]
+        } 
+      }
+    ]);
+  
+    data = result[0].data;
+    if (data.length > 0) {
+      count = result[0].total_matched[0]['count'];
+    }
+
+    res.status(200).json({
+      message: 'Success',
+      total_matched: count,
+      data: genres
+    });
+
+  }catch(e){
+    res.status(500).json({
+      message: e.message
+    });
+  }
+};

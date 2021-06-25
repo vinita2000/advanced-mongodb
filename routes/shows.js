@@ -12,7 +12,8 @@ const {
   update,
   rename,
   findAllMovies,
-  findAllGenres
+  findAllGenres,
+  textIndex
 } = require('../controllers/shows/all');
 
 router.get('/all', pagination);
@@ -27,5 +28,6 @@ router.put('/update', update);
 router.get('/rename', rename);
 router.get('/findAllMovies', findAllMovies);
 router.get('/findAllGenres', findAllGenres);
+router.get('/textIndex', textIndex);
 
 module.exports = router;

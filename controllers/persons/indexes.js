@@ -50,7 +50,7 @@ exports.olderThan =  async (req, res) => {
     const execTime = afterTime - beforeTime;
 
     data = result[0].data;
-    if (data.length > 0) {
+    if (data.length > 0) { 
       count = result[0].total_matched[0]['count'];
     }
 
