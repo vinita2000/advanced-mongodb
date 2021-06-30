@@ -100,3 +100,47 @@ exports.projectGeoLocation =  async (req, res) => {
     });
   }
 }
+
+exports.buckets =  async (req, res) => {
+  try{
+
+    const data1 = await Persons.aggregate([
+      {
+        $bucket: {
+          groupBy: '$dob.age',
+          boundaries: [18, 30, 50, 60, 70, 80],
+          output: {
+            numPersons: { $sum: 1 },
+            averageAge: { $avg: '$dob.age' }
+          }
+        }
+      }
+    ]);
+
+    const data2 = await Persons.aggregate([
+      {
+        $bucketAuto: {
+          groupBy: '$dob.age',
+         buckets: 5,
+          output: {
+            numPersons: { $sum: 1 },
+            averageAge: { $avg: '$dob.age' }
+          }
+        }
+      }
+    ]);
+
+    res.status(200).json({
+      success: true,
+      bucket1: data1,
+      bucket2: data2
+    });
+
+  }catch(e){
+    console.log(e);
+    res.status(500).json({
+      success: false,
+      message: e.message
+    });
+  }
+}
