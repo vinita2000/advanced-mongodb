@@ -4,13 +4,14 @@ const { olderThan } = require('../controllers/persons/indexes');
 const {
   livingInCity,
   projectGeoLocation,
-  buckets
+  buckets,
+  personToFriends
 } = require('../controllers/persons/aggregation');
 
 const { 
   groupByAge,
   exams,
-  highestScores,
+  highestScores
 } = require('../controllers/persons/friends');
 
 
@@ -22,5 +23,6 @@ router.get('/buckets', buckets);
 router.get('/groupByAge', groupByAge);
 router.get('/exams', exams);
 router.get('/highestScores', highestScores);
+router.get('/personToFriends', personToFriends);
 
 module.exports = router;

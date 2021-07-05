@@ -144,3 +144,46 @@ exports.buckets =  async (req, res) => {
     });
   }
 }
+
+exports.personToFriends = async (req, res) => {
+  try{
+    let data = {};
+    let skp = 0; let lmt = 2;
+
+    if (req.query['skip']) skp = parseInt(req.query['skip']);
+    if (req.query['limit']) lmt = parseInt(req.query['limit']);
+   
+    data = await Persons.aggregate([
+      {
+        $project: {
+          name: { $concat: ["$name.first", " ", "$name.last"] },
+          age: "$dob.age"
+        }
+      },
+      {
+        $sort: { age: 1 }
+      },
+      {
+        $skip: skp
+      },
+      {
+        $limit: lmt
+      },
+      {
+        $out: 'friends'
+      }
+    ]);
+
+    res.status(200).json({
+      success: true,
+      data
+    });
+
+  }catch(e){
+    console.log(e);
+    res.status(500).json({
+      success: false,
+      message: e.message
+    });
+  }
+};
